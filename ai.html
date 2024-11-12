@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chitti AI Interface</title>
+    <style>
+        /* Resetting margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Dark theme body */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2E3B4E, #121C27); /* Dark gradient background */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        /* Chat container */
+        .chat-container {
+            width: 100%;
+            max-width: 480px;
+            background: #1E232B; /* Dark background for chat */
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+            transition: transform 0.3s ease;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        /* Chat container animation */
+        @keyframes slideIn {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Hover effect on chat container */
+        .chat-container:hover {
+            transform: scale(1.05); /* Slight zoom-in effect */
+        }
+
+        /* Chat header */
+        .chat-header {
+            background: linear-gradient(135deg, #1E1F27, #374254); /* Dark gradient header */
+            color: #FFFFFF;
+            padding: 20px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #2C3E4F;
+        }
+
+        /* Chat box */
+        .chat-box {
+            height: 70%;
+            padding: 20px;
+            overflow-y: auto;
+            background: #212832; /* Darker background for chat box */
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 16px;
+            color: #D1D8E1; /* Light gray text for readability */
+        }
+
+        .chat-box::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-box::-webkit-scrollbar-thumb {
+            background-color: #5A6372;
+            border-radius: 10px;
+        }
+
+        .chat-box::-webkit-scrollbar-thumb:hover {
+            background-color: #3C444F;
+        }
+
+        /* Chat input area */
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            background: #2A323F; /* Dark background for input area */
+            border-top: 2px solid #4A5A67;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #4A5A67;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            background: #2A323F; /* Same as input area background */
+            color: #D1D8E1;
+        }
+
+        .chat-input input:focus {
+            border-color: #66B2FF; /* Light blue border on focus */
+            outline: none;
+        }
+
+        .chat-input button {
+            background-color: #66B2FF; /* Light blue button */
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-input button:hover {
+            background-color: #3399FF; /* Hover effect for button */
+        }
+
+        /* Message styling */
+        .message {
+            padding: 12px 18px;
+            border-radius: 25px;
+            font-size: 16px;
+            max-width: 80%;
+            word-wrap: break-word;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Message shadow */
+        }
+
+        .message.user {
+            background-color: #66B2FF; /* Light blue for user messages */
+            color: white;
+            align-self: flex-end;
+            border-radius: 20px 20px 0 20px;
+        }
+
+        .message.bot {
+            background-color: #4A5A67; /* Dark gray for bot messages */
+            color: white;
+            align-self: flex-start;
+            border-radius: 20px 20px 20px 0;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .chat-container {
+                width: 95%;
+                height: 90vh;
+            }
+
+            .chat-header {
+                font-size: 22px;
+            }
+
+            .message {
+                font-size: 14px;
+            }
+
+            .chat-input input {
+                font-size: 14px;
+            }
+
+            .chat-input button {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">
+        Chitti GPT
+    </div>
+    <div class="chat-box" id="chat-box">
+        Chitti GPT is here how can i assist you today...?
+        {% for message in messages %}
+            <p class="message {{ message.role }}">{{ message.text }}</p>
+        {% endfor %}
+    </div>
+    <form class="chat-input" action="/send" method="POST">
+        <input type="text" name="user_input" placeholder="Type a message..." id="user-input" />
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+</body>
+</html>
